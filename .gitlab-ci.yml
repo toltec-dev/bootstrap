@@ -8,4 +8,4 @@ build:
   artifacts:
     expire_in: 6 hours
     paths:
-      - output/build
+      - buildroot/output/build
