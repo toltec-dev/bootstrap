@@ -14,4 +14,4 @@ build:
   artifacts:
     expire_in: 6 hours
     paths:
-      - buildroot/output/target
+      - dist/
