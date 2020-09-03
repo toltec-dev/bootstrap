@@ -17,3 +17,4 @@ Todo:
  - Use defconfig for buildroot
  - Use oecore toolchain instead of linaro
    - Try to use cortex-a9 instead
+ - Use github actions instead of gitlab pipelines since if fits better into remarkable ecosystem
