@@ -6,9 +6,12 @@ build:
   tags:
     - docker
     - x86_64
+  cache:
+    paths:
+      - buildroot/dl/
   script:
     - ./ci_build.sh
   artifacts:
     expire_in: 6 hours
     paths:
-      - buildroot/output/build
+      - buildroot/output/target
