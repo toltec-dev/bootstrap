@@ -1,3 +1,6 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 build:
   image: buildroot/base:20200814.2228
   tags:
