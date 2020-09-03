@@ -12,6 +12,6 @@ build:
   script:
     - ./ci_build.sh
   artifacts:
-    expire_in: 6 hours
+    expire_in: 5 years
     paths:
       - dist/
