@@ -1,20 +1,8 @@
-# wget-remarkable-pipeline
+# wget
 
-This repo builds wget using [buildroot](https://buildroot.org/).
+This repository contains the instructions necessary to build a minimal and standalone [wget](https://www.gnu.org/software/wget/) which supports TLS.
+The resulting binary is used to bootstrap the installation of Toltec on the reMarkable, since the tablet ships with a non-TLS-supporting wget.
 
-There was an attempt to do it without [here](https://git.cosmos-ink.net/linus/wget-remarkable-pipeline/-/snippets/2).
-However due to ever increasing library requirements to get all needed libraries that are missing on the reMarkable,
-I just chose to let buildroot do the heavy lifting.
-
-You can download the lastest artifact [from here](https://git.cosmos-ink.net/linus/wget-remarkable-pipeline/builds/artifacts/master/download?job=build).
-Wget needs the needs the included libraries in order to run properly (not needed if not compiling with ssl support).
-You can either run wget like so: `LD_LIBRARY_PATH=. ./wget <URL>` or copy the libaries to /lib on the reMarkable.
-
-Todo:
-
- - Installer link
- - Deciding on whether to use a wrapper script in bin/ or just copy the libs into /lib (probably bad for integrity and eats system space)
- - Use defconfig for buildroot
- - Use oecore toolchain instead of linaro
-   - Try to use cortex-a9 instead
- - Use github actions instead of gitlab pipelines since if fits better into remarkable ecosystem
+Through GitHub Actions, this repository is automatically built whenever a commit is pushed to the `main` branch.
+The result is pushed to <https://toltec.delab.re/thirdparty/bin/wget>.
+The SHA-256 checksum of the binary is `8d447c6eb0a39e705f45bea900b12eef07142ea3da0809aca4dd44fe4110cdfd`.

@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+
+#
+# build-wget
+#
+# Build a standalone version of wget that supports TLS.
+# This script is to be executed in toltec-dev/base Docker container.
+# The resulting executable will be placed in /root/wget.
+#
+
+if [[ -z $SYSROOT ]]; then
+    echo "This script must be executed in a Docker container running the"
+    echo "toltec-dev/base image. The \$SYSROOT variable was not found."
+    exit 1
+fi
+
+set -e
+
+# Curl command with flags suitable for scripting, restricted to HTTPS
+rsecurl() {
+    curl --fail --silent --tlsv1.2 --proto '=https' "$@"
+}
+
+# Download and verify checksum
+fetch() {
+    rsecurl -o "$2" "$1"
+    sha256sum -c <(echo "$3 $2") > /dev/null
+}
+
+cd /root
+
+# Build Nettle
+mkdir nettle-build
+pushd nettle-build
+
+fetch https://ftp.gnu.org/gnu/nettle/nettle-3.6.tar.gz nettle.tar.gz \
+    d24c0d0f2abffbc8f4f34dcf114b0f131ec3774895f3555922fe2f40f3d5e3f1
+tar --strip-components=1 -zxf nettle.tar.gz
+rm nettle.tar.gz
+
+./configure \
+    --prefix="$SYSROOT/usr" \
+    --host="$CHOST" \
+    --enable-mini-gmp \
+    --disable-shared \
+    --disable-documentation \
+    --disable-assembler
+make
+make install
+
+popd
+rm -r nettle-build
+
+# Build GnuTLS
+mkdir gnutls-build
+pushd gnutls-build
+
+fetch https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.15.tar.xz gnutls.tar.xz \
+    0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558
+tar --strip-components=1 -Jxf gnutls.tar.xz
+rm gnutls.tar.xz
+
+./configure \
+    --prefix="$SYSROOT/usr" \
+    --host="$CHOST" \
+    --disable-doc \
+    --enable-static \
+    --with-nettle-mini \
+    --with-included-libtasn1 \
+    --with-included-unistring \
+    --without-p11-kit
+make
+make install
+
+popd
+rm -r gnutls-build
+
+# Build wget
+mkdir wget-build
+pushd wget-build
+
+fetch https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz wget.tar.gz \
+    31cccfc6630528db1c8e3a06f6decf2a370060b982841cfab2b8677400a5092e
+tar --strip-components=1 -zxf wget.tar.gz
+rm wget.tar.gz
+
+export GNUTLS_LIBS="-L$SYSROOT/usr/lib -static -lgnutls -pthread -latomic -lhogweed -lnettle"
+./configure \
+    --prefix="$SYSROOT/usr" \
+    --host="$CHOST"
+make
+
+popd
+mv wget-build/src/wget .
+rm -r wget-build
