@@ -1,0 +1,40 @@
+name: publish
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        name: Build the wget binary
+        runs-on: ubuntu-latest
+        container:
+            image: ghcr.io/toltec-dev/base:v1.2
+        steps:
+            - name: Checkout the Git repository
+              uses: actions/checkout@v2
+            - name: Build the binary
+              run: ./build-wget
+            - name: Store the resulting artifact
+              uses: actions/upload-artifact@v2
+              with:
+                name: wget
+                path: /root/wget
+    publish:
+        name: Publish the wget binary
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Fetch the built binary
+              uses: actions/download-artifact@v2
+              with:
+                name: wget
+            - name: Transfer packages and index
+              run: |
+                mkdir -p private
+                chmod 700 private
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" > private/id_rsa
+                echo "${{ secrets.SSH_KNOWN_HOSTS }}" > private/known_hosts
+                chmod 600 private/*
+                ls -lah
+                scp -i private/id_rsa -o UserKnownHostsFile=private/known_hosts \
+                    wget "${{ secrets.REMOTE }}":/srv/toltec/thirdparty/bin
