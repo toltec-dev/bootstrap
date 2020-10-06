@@ -1,8 +1,8 @@
-name: publish
+name: release
 on:
     push:
-        branches:
-            - main
+        tags:
+            - '*'
 jobs:
     build:
         name: Build the wget binary
@@ -13,13 +13,13 @@ jobs:
             - name: Checkout the Git repository
               uses: actions/checkout@v2
             - name: Build the binary
-              run: ./build-wget
+              run: ./build
             - name: Store the resulting artifact
               uses: actions/upload-artifact@v2
               with:
                 name: wget
                 path: /root/wget
-    publish:
+    release:
         name: Publish the wget binary
         runs-on: ubuntu-latest
         needs: build
@@ -35,5 +35,6 @@ jobs:
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > private/id_rsa
                 echo "${{ secrets.SSH_KNOWN_HOSTS }}" > private/known_hosts
                 chmod 600 private/*
+                version="$(echo "${{ github.ref }}" | cut -d / -f 3)"
                 scp -i private/id_rsa -o UserKnownHostsFile=private/known_hosts \
-                    wget "${{ secrets.REMOTE }}":/srv/toltec/thirdparty/bin
+                    wget "${{ secrets.REMOTE }}":/srv/toltec/thirdparty/bin/wget-"$version"

@@ -3,9 +3,9 @@
 #
 # build-wget
 #
-# Build a standalone version of wget that supports TLS.
-# This script is to be executed in toltec-dev/base Docker container.
-# The resulting executable will be placed in /root/wget.
+# Build a standalone wget that supports TLS. This script is to be executed
+# in a Docker container running the toltec-dev/base image. The resulting
+# binary will be written to /root/wget
 #
 
 if [[ -z $SYSROOT ]]; then
