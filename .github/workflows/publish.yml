@@ -35,6 +35,5 @@ jobs:
                 echo "${{ secrets.SSH_PRIVATE_KEY }}" > private/id_rsa
                 echo "${{ secrets.SSH_KNOWN_HOSTS }}" > private/known_hosts
                 chmod 600 private/*
-                ls -lah
                 scp -i private/id_rsa -o UserKnownHostsFile=private/known_hosts \
                     wget "${{ secrets.REMOTE }}":/srv/toltec/thirdparty/bin
