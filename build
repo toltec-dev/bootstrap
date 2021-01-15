@@ -33,8 +33,8 @@ cd /root
 mkdir nettle-build
 pushd nettle-build
 
-fetch https://ftp.gnu.org/gnu/nettle/nettle-3.6.tar.gz nettle.tar.gz \
-    d24c0d0f2abffbc8f4f34dcf114b0f131ec3774895f3555922fe2f40f3d5e3f1
+fetch https://ftp.gnu.org/gnu/nettle/nettle-3.7.tar.gz nettle.tar.gz \
+    f001f64eb444bf13dd91bceccbc20acbc60c4311d6e2b20878452eb9a9cec75a
 tar --strip-components=1 -zxf nettle.tar.gz
 rm nettle.tar.gz
 
@@ -55,8 +55,8 @@ rm -r nettle-build
 mkdir gnutls-build
 pushd gnutls-build
 
-fetch https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.15.tar.xz gnutls.tar.xz \
-    0ea8c3283de8d8335d7ae338ef27c53a916f15f382753b174c18b45ffd481558
+fetch https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.0.tar.xz gnutls.tar.xz \
+    49e2a22691d252c9f24a9829b293a8f359095bc5a818351f05f1c0a5188a1df8
 tar --strip-components=1 -Jxf gnutls.tar.xz
 rm gnutls.tar.xz
 
@@ -79,8 +79,8 @@ rm -r gnutls-build
 mkdir wget-build
 pushd wget-build
 
-fetch https://ftp.gnu.org/gnu/wget/wget-1.20.3.tar.gz wget.tar.gz \
-    31cccfc6630528db1c8e3a06f6decf2a370060b982841cfab2b8677400a5092e
+fetch https://ftp.gnu.org/gnu/wget/wget-1.21.1.tar.gz wget.tar.gz \
+    59ba0bdade9ad135eda581ae4e59a7a9f25e3a4bde6a5419632b31906120e26e
 tar --strip-components=1 -zxf wget.tar.gz
 rm wget.tar.gz
 
