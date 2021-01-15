@@ -93,3 +93,6 @@ make
 popd
 mv wget-build/src/wget .
 rm -r wget-build
+
+# Strip symbols from the resulting binary
+${CROSS_COMPILE}strip --strip-all wget
