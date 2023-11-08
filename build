@@ -45,7 +45,7 @@ rm nettle.tar.gz
     --disable-shared \
     --disable-documentation \
     --disable-assembler
-make
+make -j $(nproc)
 make install
 
 popd
@@ -69,7 +69,7 @@ rm gnutls.tar.xz
     --with-included-libtasn1 \
     --with-included-unistring \
     --without-p11-kit
-make
+make -j $(nproc)
 make install
 
 popd
@@ -84,11 +84,11 @@ fetch https://ftp.gnu.org/gnu/wget/wget-1.21.1.tar.gz wget.tar.gz \
 tar --strip-components=1 -zxf wget.tar.gz
 rm wget.tar.gz
 
-export GNUTLS_LIBS="-L$SYSROOT/usr/lib -static -lgnutls -pthread -latomic -lhogweed -lnettle"
+export GNUTLS_LIBS="-L$SYSROOT/usr/lib -Wl,-Bstatic -lgnutls -Wl,-Bdynamic -pthread -latomic -lhogweed -lnettle"
 ./configure \
     --prefix="$SYSROOT/usr" \
     --host="$CHOST"
-make
+make -j $(nproc)
 
 popd
 mv wget-build/src/wget .
