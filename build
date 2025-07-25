@@ -84,7 +84,7 @@ fetch https://ftp.gnu.org/gnu/wget/wget-1.21.1.tar.gz wget.tar.gz \
 tar --strip-components=1 -zxf wget.tar.gz
 rm wget.tar.gz
 
-export GNUTLS_LIBS="-L$SYSROOT/usr/lib -Wl,-Bstatic -lgnutls -Wl,-Bdynamic -pthread -latomic -lhogweed -lnettle"
+export GNUTLS_LIBS="-L$SYSROOT/usr/lib -Wl,-Bstatic -lgnutls -latomic -Wl,-Bdynamic -pthread  -lhogweed -lnettle"
 ./configure \
     --prefix="$SYSROOT/usr" \
     --host="$CHOST"
