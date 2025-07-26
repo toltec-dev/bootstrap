@@ -8,7 +8,7 @@ Here is the list of current releases:
 
 Version                                                           | SHA-256 checksum
 ----------------------------------------------------------------- | ------------------------------------------------------------------
-[v1.21.1-2](https://toltec-dev.org/thirdparty/bin/wget-v1.21.1-2) | `580c563cc5b5ddc05047e228742871ba95f72a7aa42d817becbbb6cd7f63d8b7`
+[v1.21.1-2](https://toltec-dev.org/thirdparty/bin/wget-v1.21.1-2) | `3130886a020a56b7471ed60f3742db26acdced4b27fed5be22f9892b77589bc5`
 [v1.21.1-1](https://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1) | `c258140f059d16d24503c62c1fdf747ca843fe4ba8fcd464a6e6bda8c3bbb6b5`
 [v1.21.1](https://toltec-dev.org/thirdparty/bin/wget-v1.21.1)     | `8798fcdabbe560722a02f95b30385926e4452e2c98c15c2c217583eaa0db30fc`
 [v1.20.3](https://toltec-dev.org/thirdparty/bin/wget-v1.20.3)     | `8d447c6eb0a39e705f45bea900b12eef07142ea3da0809aca4dd44fe4110cdfd`
