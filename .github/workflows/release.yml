@@ -22,6 +22,24 @@ jobs:
               with:
                 name: wget
                 path: /root/wget
+    build-aarch64:
+        name: Build the wget binary aarch64
+        runs-on: ubuntu-latest
+        container:
+            image: ghcr.io/toltec-dev/base:v4.0
+        steps:
+            - name: Checkout the Git repository
+              uses: actions/checkout@v4
+            - name: Build the binary
+              run: |
+                  source /opt/x-tools/switch-aarch64.sh
+                  ./build
+                  mv /root/wget /root/wget-aarch64
+            - name: Store the resulting artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: wget-aarch64
+                path: /root/wget-aarch64
     release:
         name: Publish the wget binary
         runs-on: ubuntu-latest
@@ -32,6 +50,10 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                 name: wget
+            - name: Fetch the built aarch64 binary
+              uses: actions/download-artifact@v4
+              with:
+                name: wget-aarch64
             - name: Transfer packages and index
               run: |
                 mkdir -p private
@@ -44,3 +66,7 @@ jobs:
                     -i private/id_rsa \
                     -o UserKnownHostsFile=private/known_hosts \
                     wget "${{ secrets.REMOTE_SSH }}":/srv/toltec/thirdparty/bin/wget-"$version"
+                scp -P "${{ secrets.SSH_PORT }}" \
+                    -i private/id_rsa \
+                    -o UserKnownHostsFile=private/known_hosts \
+                    wget-aarch64 "${{ secrets.REMOTE_SSH }}":/srv/toltec/thirdparty/bin/wget-aarch64-"$version"
