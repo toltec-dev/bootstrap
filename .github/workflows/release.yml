@@ -32,8 +32,7 @@ jobs:
               uses: actions/checkout@v4
             - name: Build the binary
               run: |
-                  source /opt/x-tools/switch-aarch64.sh
-                  ./build
+                  bash -c 'source /opt/x-tools/switch-aarch64.sh; ./build'
                   mv /root/wget /root/wget-aarch64
             - name: Store the resulting artifact
               uses: actions/upload-artifact@v4
